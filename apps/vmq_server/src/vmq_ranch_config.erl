@@ -422,9 +422,9 @@ dispatch(Type, Opts) ->
     maybe_proxy(proplists:get_value(proxy_protocol, Opts, false), Type, Opts).
 maybe_proxy(false, Type, Opts) ->
     cowboy_router:compile(
-        [{'_', [{"/mqtt", vmq_websocket, [{type, Type}|default_session_opts(Opts)]}]}
+        [{'_', [{"/$iothub/websocket", vmq_websocket, [{type, Type}|default_session_opts(Opts)]}]}
         ]);
 maybe_proxy(true, Type, Opts) ->
     cowboy_router:compile(
-        [{'_', [{"/mqtt", vmq_websocket, [{proxy_header, true}|[{type, Type}|default_session_opts(Opts)]]}]}
+        [{'_', [{"/$iothub/websocket", vmq_websocket, [{proxy_header, true}|[{type, Type}|default_session_opts(Opts)]]}]}
         ]).
